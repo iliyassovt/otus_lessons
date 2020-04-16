@@ -1,0 +1,38 @@
+Report since 13/Apr/2020:04:11:54
+
+--- Most requests from IPs:
+188.170.193.201 (10 requests)
+66.249.64.167 (7 requests)
+213.180.203.26 (6 requests)
+178.154.200.225 (6 requests)
+27.115.124.69 (5 requests)
+66.249.64.171 (4 requests)
+66.249.93.43 (3 requests)
+61.216.152.133 (3 requests)
+66.249.64.169 (2 requests)
+27.115.124.68 (2 requests)
+
+--- Most popular urls:
+/form/ (11 requests)
+/form (8 requests)
+/ (7 requests)
+/robots.txt (5 requests)
+/favicon.ico (5 requests)
+/js/template.js (2 requests)
+/js/jquery.min.js (2 requests)
+/js/jquery.maskedinput.min.js (2 requests)
+/js/jquery.form.min.js (2 requests)
+/form/favicon.ico (2 requests)
+
+--- HTTP codes:
+404: 15 times
+400: 3 times
+500: 4 times
+200: 21 times
+301: 15 times
+
+--- Errors:
+66.249.64.167 - - [15/Apr/2020:09:50:51 +0300] "GET /favicon.ico HTTP/1.0" 500 209 "-" "Googlebot-Image/1.0"
+66.249.64.167 - - [15/Apr/2020:09:50:51 +0300] "GET /favicon.ico HTTP/1.0" 500 209 "-" "Googlebot-Image/1.0"
+66.249.64.167 - - [15/Apr/2020:09:50:51 +0300] "GET /favicon.ico HTTP/1.0" 500 209 "-" "Googlebot-Image/1.0"
+66.249.64.167 - - [11/Apr/2020:09:50:51 +0300] "GET /favicon.ico HTTP/1.0" 500 209 "-" "Googlebot-Image/1.0"
