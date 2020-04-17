@@ -5,6 +5,7 @@ readonly Y=10
 readonly remembered_last_line_file=./remembered_last_line.txt
 readonly output_file=./output.txt
 readonly log_file=./myaccess.log
+readonly email=temir8173@gmail.com
 
 
 function extract_ip() {
@@ -135,6 +136,8 @@ echo "" >> $output_file
 
 echo "--- Errors:" >> $output_file
 IFS=$'\n'; echo "${errors[*]}" >> $output_file
+
+mail -s "Лог из домашней работы" $email < $output_file
 
 echo "SUCCESS - The result you can see in the file 'output.txt' in current directory"
 
