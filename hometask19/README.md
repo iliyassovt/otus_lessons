@@ -140,7 +140,7 @@ Office2Server
 ![Office2Server-tracepath](pics/2020-05-03*18-56-53.png)
 
 Office1Server
-g
+
 ![Office1Server-ping](pics/2020-05-03*18-57-20.png)
 ![Office1Server-tracepath](pics/2020-05-03*19-48-45.png)
 
