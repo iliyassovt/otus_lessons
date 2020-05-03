@@ -102,57 +102,58 @@ Office2----/
 # 2. Практическая часть
 
 Схема сети
-[schema](/pics/schema.jpg])
+
+![schema](pics/schema.jpg)
 
 ## Соединить офисы в сеть согласно схеме и настроить роутинг
 
 Сетевые настройки CentralRouter
 
-[centralRouter-ip](/pics/Screenshot from 2020-05-03 18-48-07.png)
-[centralRouter-routing](/pics/Screenshot from 2020-05-03 18-48-52.png)
+![centralRouter-ip](pics/Screenshot from 2020-05-03 18-48-07.png)
+![centralRouter-routing](pics/Screenshot from 2020-05-03 18-48-52.png)
 
 Сетевые настройки Office1Router
 
-[Office1Router-ip](pics/Screenshot from 2020-05-03 18-50-49.png)
-[Office1Router-routing](pics/Screenshot from 2020-05-03 18-51-10.png)
+![Office1Router-ip](pics/Screenshot from 2020-05-03 18-50-49.png)
+![Office1Router-routing](pics/Screenshot from 2020-05-03 18-51-10.png)
 
 Сетевые настройки Office1Server
 
-[Office1Server-ip](pics/Screenshot from 2020-05-03 18-53-25.png)
-[Office1Server-routing](pics/Screenshot from 2020-05-03 18-53-42.png)
+![Office1Server-ip](pics/Screenshot from 2020-05-03 18-53-25.png)
+![Office1Server-routing](pics/Screenshot from 2020-05-03 18-53-42.png)
 
 Сетевые настройки Office2Router
 
-[Office2Router-ip](pics/Screenshot from 2020-05-03 18-54-38.png)
-[Office2Router-routing](pics/Screenshot from 2020-05-03 18-54-49.png)
+![Office2Router-ip](pics/Screenshot from 2020-05-03 18-54-38.png)
+![Office2Router-routing](pics/Screenshot from 2020-05-03 18-54-49.png)
 
 Сетевые настройки Office2Server
 
-[Office2Server-ip](pics/Screenshot from 2020-05-03 18-55-09.png)
-[Office2Server-routing](pics/Screenshot from 2020-05-03 18-55-20.png)
+![Office2Server-ip](pics/Screenshot from 2020-05-03 18-55-09.png)
+![Office2Server-routing](pics/Screenshot from 2020-05-03 18-55-20.png)
 
 ## Все сервера и роутеры должны ходить в инет черз inetRouter
 
 Office2Server
 
-[Office2Server-ping](pics/Screenshot from 2020-05-03 18-56-15.png)
-[Office2Server-tracepath](pics/Screenshot from 2020-05-03 18-56-53.png)
+![Office2Server-ping](pics/Screenshot from 2020-05-03 18-56-15.png)
+![Office2Server-tracepath](pics/Screenshot from 2020-05-03 18-56-53.png)
 
 Office1Server
 
-[Office1Server-ping](pics/Screenshot from 2020-05-03 18-57-20.png)
-[Office1Server-tracepath](pics/Screenshot from 2020-05-03 19-48-45.png)
+![Office1Server-ping](pics/Screenshot from 2020-05-03 18-57-20.png)
+![Office1Server-tracepath](pics/Screenshot from 2020-05-03 19-48-45.png)
 
 ## Все сервера должны видеть друг друга
 
 Offic1Server => CentralServer
-[Offic1Server-to-CentralServer](pics/Screenshot from 2020-05-03 18-58-41.png)
+![Offic1Server-to-CentralServer](pics/Screenshot from 2020-05-03 18-58-41.png)
 
 Offic2Server => Offic1Server
-[Offic2Server-to-Offic1Server](pics/Screenshot from 2020-05-03 18-59-11.png)
+![Offic2Server-to-Offic1Server](pics/Screenshot from 2020-05-03 18-59-11.png)
 
 CentralServer => Offic1Server
-[CentralServer-to-Offic1Server](pics/Screenshot from 2020-05-03 19-02-54.png)
+![CentralServer-to-Offic1Server](pics/Screenshot from 2020-05-03 19-02-54.png)
 
 ## у всех новых серверов отключить дефолт на нат (eth0), который вагрант поднимает для связи
 
