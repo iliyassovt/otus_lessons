@@ -102,14 +102,14 @@ Office2----/
 # 2. Практическая часть
 
 Схема сети
-[schema](pics/schema.jpg])
+[schema](/pics/schema.jpg])
 
 ## Соединить офисы в сеть согласно схеме и настроить роутинг
 
 Сетевые настройки CentralRouter
 
-[centralRouter-ip](pics/Screenshot from 2020-05-03 18-48-07.png)
-[centralRouter-routing](pics/Screenshot from 2020-05-03 18-48-52.png)
+[centralRouter-ip](/pics/Screenshot from 2020-05-03 18-48-07.png)
+[centralRouter-routing](/pics/Screenshot from 2020-05-03 18-48-52.png)
 
 Сетевые настройки Office1Router
 
