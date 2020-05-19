@@ -1,0 +1,96 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+    config.vm.box = "centos/7"
+    config.vm.box_version = "1905.1"
+  
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 256
+      v.cpus = 1
+    end
+  
+    config.vm.define "r1" do |r1|
+      r1.vm.network "private_network", ip: "172.16.1.1", virtualbox__intnet: "link1"
+      r1.vm.network "private_network", ip: "172.16.2.1", virtualbox__intnet: "link2"
+      r1.vm.hostname = "r1"
+      r1.vm.provision "shell", run: "always", inline: <<-SHELL
+              echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.forwarding=1  >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
+              sysctl -p /etc/sysctl.conf
+              yum -y install quagga tcpdump
+              cp /vagrant/router1/ospfd.conf /etc/quagga/ospfd.conf
+              echo -e "DEVICE=lo:2\nIPADDR=10.0.0.1\nPREFIX=32\nNETWORK=10.0.0.1\nONBOOT=yes" > /etc/sysconfig/network-scripts/ifcfg-lo.2
+              systemctl restart network
+              chown quagga:quagga /etc/quagga/ospfd.conf
+              systemctl enable zebra ospfd && systemctl start zebra ospfd
+              setsebool -P zebra_write_config 1
+              iptables -t nat -A POSTROUTING ! -d 172.16.0.0/16 -o eth0 -j MASQUERADE
+              SHELL
+    end
+  
+    config.vm.define "r2" do |r2|
+      r2.vm.network "private_network", ip: "172.16.1.2", virtualbox__intnet: "link1"
+      r2.vm.network "private_network", ip: "172.16.3.2", virtualbox__intnet: "link3"
+      r2.vm.hostname = "r2"
+      r2.vm.provision "shell", run: "always", inline: <<-SHELL
+              echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.forwarding=1  >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
+              sysctl -p /etc/sysctl.conf
+              yum -y install quagga tcpdump
+              echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+              echo -e "DEVICE=lo:2\nIPADDR=10.0.0.2\nPREFIX=32\nNETWORK=10.0.0.2\nONBOOT=yes" > /etc/sysconfig/network-scripts/ifcfg-lo.2
+              systemctl restart network
+              cp /vagrant/router2/ospfd.conf /etc/quagga/ospfd.conf
+              chown quagga:quagga /etc/quagga/ospfd.conf
+              systemctl enable zebra ospfd && systemctl start zebra ospfd
+              setsebool -P zebra_write_config 1
+              SHELL
+    end
+  
+    config.vm.define "r3" do |r3|
+      r3.vm.network "private_network", ip: "172.16.2.3", virtualbox__intnet: "link2"
+      r3.vm.network "private_network", ip: "172.16.3.3", virtualbox__intnet: "link3"
+      r3.vm.network "private_network", ip: "172.16.4.3", virtualbox__intnet: "link4"
+      r3.vm.hostname = "r3"
+      r3.vm.provision "shell", run: "always", inline: <<-SHELL
+              echo net.ipv4.ip_forward=1 >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.forwarding=1  >> /etc/sysctl.conf
+              echo net.ipv4.conf.all.rp_filter=2 >> /etc/sysctl.conf
+              sysctl -p /etc/sysctl.conf
+              yum -y install quagga tcpdump
+              echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+              echo -e "DEVICE=lo:2\nIPADDR=10.0.0.3\nPREFIX=32\nNETWORK=10.0.0.3\nONBOOT=yes" > /etc/sysconfig/network-scripts/ifcfg-lo.2
+              systemctl restart network
+              cp /vagrant/router3/ospfd.conf /etc/quagga/ospfd.conf
+              chown quagga:quagga /etc/quagga/ospfd.conf
+              systemctl enable zebra ospfd && systemctl start zebra ospfd
+              setsebool -P zebra_write_config 1
+              SHELL
+    end
+
+    config.vm.define "r4" do |r4|
+      r4.vm.network "private_network", ip: "172.16.4.4", virtualbox__intnet: "link4"
+      r4.vm.hostname = "r4"
+      r4.vm.provision "shell", run: "always", inline: <<-SHELL
+              echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+              echo "GATEWAY=172.16.4.3" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+              sleep 5
+              systemctl restart network
+              SHELL
+    end
+  
+    #config.vm.provision "ansible" do |ansible|
+    #  ansible.verbose = "v"
+    #  ansible.playbook = "start.yml"
+    #  ansible.become = "true"
+    #end
+  
+    #config.vm.provision "shell", run: "always", inline: <<-SHELL
+    #  ip route delete default 2>&1 >/dev/null || true
+    #  systemctl restart network
+    #  SHELL
+  
+  end
