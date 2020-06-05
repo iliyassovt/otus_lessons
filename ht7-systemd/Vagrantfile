@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+    config.vm.box = "centos/7"
+    config.vm.box_version = "1905.1"
+  
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 256
+      v.cpus = 1
+    end
+  
+    config.vm.define "r1" do |r1|
+      r1.vm.hostname = "r1"
+      r1.vm.provision "shell", run: "always", inline: <<-SHELL
+              yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid httpd -y
+              cp /vagrant/services/watchlog /etc/sysconfig/
+              cp /vagrant/services/watchlog.log /var/log/
+              cp /vagrant/services/watchlog.sh /opt/watchlog.sh
+              chmod +x /opt/watchlog.sh
+              cp /vagrant/services/watchlog.service /etc/systemd/system/
+              cp /vagrant/services/watchlog.timer /etc/systemd/system/
+              cp /vagrant/services/spawn-fcgi /etc/sysconfig/
+              cp /vagrant/services/spawn-fcgi.service /etc/systemd/system/
+              cp /vagrant/services/httpd-first /etc/sysconfig/
+              cp /vagrant/services/httpd-second /etc/sysconfig/
+              cp /vagrant/services/first.conf /etc/httpd/conf/
+              cp /vagrant/services/second.conf /etc/httpd/conf/
+              cp /vagrant/services/httpd@first.service /etc/systemd/system/
+              cp /vagrant/services/httpd@second.service /etc/systemd/system/
+
+              systemctl start watchlog.timer
+              systemctl start watchlog.service
+              timeout 15 bash -c -- 'tail -f /var/log/messages'
+              systemctl start spawn-fcgi
+              systemctl status spawn-fcgi
+              systemctl start httpd@first
+              systemctl start httpd@second
+              ss -tnulp | grep httpd
+
+              SHELL
+    end
+  
+  
+    #config.vm.provision "ansible" do |ansible|
+    #  ansible.verbose = "v"
+    #  ansible.playbook = "start.yml"
+    #  ansible.become = "true"
+    #end
+  
+    #config.vm.provision "shell", run: "always", inline: <<-SHELL
+    #  ip route delete default 2>&1 >/dev/null || true
+    #  systemctl restart network
+    #  SHELL
+  
+  end
