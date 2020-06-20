@@ -12,11 +12,13 @@ $ useradd -g myusers user2
 $ useradd -g admin user3
 ```
 
+![](pics/users.png)
+
 Для авторизации паролем при ssh запросе меняем настройки ssh /etc/ssh/sshd_config
 
 С "PasswordAuthentication no" на "PasswordAuthentication yes"
 
-![](pics/users.png)
+
 
 Для реализации условии проверки будем использовать модуль pam_exec. Суть заключается в том, что при подключении пользователя будет выполняться скрипт
 
