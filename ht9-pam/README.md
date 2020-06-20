@@ -19,8 +19,7 @@ passwd user1,
 passwd user2,
 passwd user3.
 
-Для авторизации паролем при ssh запросе меняем настройки ssh /etc/ssh/sshd_config
-
+Для авторизации паролем при ssh запросе меняем настройки ssh в  "/etc/ssh/sshd_config"
 С "PasswordAuthentication no" на "PasswordAuthentication yes"
 
 
