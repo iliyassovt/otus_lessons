@@ -14,6 +14,11 @@ $ useradd -g admin user3
 
 ![](pics/users.png)
 
+Задаем пароли для каждого пользователя:
+passwd user1
+passwd user2
+passwd user3
+
 Для авторизации паролем при ssh запросе меняем настройки ssh /etc/ssh/sshd_config
 
 С "PasswordAuthentication no" на "PasswordAuthentication yes"
