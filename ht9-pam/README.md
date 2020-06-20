@@ -27,9 +27,9 @@ passwd user3.
 
 Для реализации условии проверки будем использовать модуль pam_exec. Суть заключается в том, что при подключении пользователя будет выполняться скрипт
 
-Добавим в /etc/pam.d/sshd строку  account required pam_exec.so /usr/local/bin/test_login.sh
+Добавим в "/etc/pam.d/sshd" строку  "account required pam_exec.so /usr/local/bin/test_login.sh"
 
-Создадим сам скрипт /usr/local/bin/test_login.sh (прилагается файл скрипта в этой директории)
+Создадим сам скрипт "/usr/local/bin/test_login.sh" (прилагается файл скрипта в этой директории)
 
 
 ```bash
