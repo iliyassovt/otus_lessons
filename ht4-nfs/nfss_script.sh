@@ -7,8 +7,12 @@ service rpcbind start
 service nfs start
 
 mkdir /share
+mkdir /share/upload 
+sudo chgrp vagrant /share/upload
+chmod g+rw /share/upload
 
-echo "/share 192.168.50.11(rw,sync,no_root_squash,no_subtree_check)" >> /etc/exports
+echo "/share 192.168.50.11(rw,async,no_subtree_check,no_root_squash)" >> /etc/exports
+echo "/share/upload 192.168.50.11(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)" >> /etc/exports
 
 exportfs -a
 
