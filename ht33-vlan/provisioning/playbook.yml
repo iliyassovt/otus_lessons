@@ -1,0 +1,62 @@
+---
+- hosts: all
+  become: yes
+
+- hosts: testClient1
+  become: yes
+  tasks:
+    vars:
+      device: eth1.1
+      ip_addr: 10.10.10.254
+  - name: copy vlan conf
+    template:
+      src: vlan.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{ device }}
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: restart network
+    service: name=network state=restarted enabled=yes
+
+- hosts: testClient2
+  become: yes
+  tasks:
+    vars:
+      device: eth1.2
+      ip_addr: 10.10.10.254
+  - name: copy vlan conf
+    template:
+      src: vlan.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{ device }}
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: testServer1
+  become: yes
+  tasks:
+    vars:
+      device: eth1.1
+      ip_addr: 10.10.10.1
+  - name: copy vlan conf
+    template:
+      src: vlan.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{ device }}
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: testServer2
+  become: yes
+  tasks:
+    vars:
+      device: eth1.2
+      ip_addr: 10.10.10.1
+  - name: copy vlan conf
+    template:
+      src: vlan.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{ device }}
+      owner: root
+      group: root
+      mode: 0644
