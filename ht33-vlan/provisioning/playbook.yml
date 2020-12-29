@@ -4,10 +4,10 @@
 
 - hosts: testClient1
   become: yes
+  vars:
+    device: eth1.1
+    ip_addr: 10.10.10.254
   tasks:
-    vars:
-      device: eth1.1
-      ip_addr: 10.10.10.254
   - name: copy vlan conf
     template:
       src: vlan.conf.j2
@@ -21,10 +21,10 @@
 
 - hosts: testClient2
   become: yes
+  vars:
+    device: eth1.2
+    ip_addr: 10.10.10.254
   tasks:
-    vars:
-      device: eth1.2
-      ip_addr: 10.10.10.254
   - name: copy vlan conf
     template:
       src: vlan.conf.j2
@@ -35,10 +35,10 @@
 
 - hosts: testServer1
   become: yes
+  vars:
+    device: eth1.1
+    ip_addr: 10.10.10.1
   tasks:
-    vars:
-      device: eth1.1
-      ip_addr: 10.10.10.1
   - name: copy vlan conf
     template:
       src: vlan.conf.j2
@@ -49,10 +49,10 @@
 
 - hosts: testServer2
   become: yes
+  vars:
+    device: eth1.2
+    ip_addr: 10.10.10.1
   tasks:
-    vars:
-      device: eth1.2
-      ip_addr: 10.10.10.1
   - name: copy vlan conf
     template:
       src: vlan.conf.j2
