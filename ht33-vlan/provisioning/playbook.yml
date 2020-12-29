@@ -15,7 +15,6 @@
       owner: root
       group: root
       mode: 0644
-  
   - name: restart network
     service: name=network state=restarted enabled=yes
 
@@ -32,6 +31,8 @@
       owner: root
       group: root
       mode: 0644
+  - name: restart network
+    service: name=network state=restarted enabled=yes
 
 - hosts: testServer1
   become: yes
@@ -46,6 +47,8 @@
       owner: root
       group: root
       mode: 0644
+  - name: restart network
+    service: name=network state=restarted enabled=yes
 
 - hosts: testServer2
   become: yes
@@ -60,3 +63,55 @@
       owner: root
       group: root
       mode: 0644
+  - name: restart network
+    service: name=network state=restarted enabled=yes
+
+- hosts: inetRouter
+  become: yes
+  vars:
+    ip_addr: 192.168.255.1
+  tasks:
+  - name: copy bond conf
+    template:
+      src: bond.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-bond0
+      owner: root
+      group: root
+      mode: 0644
+  - name: copy slaves conf
+    template:
+      src: slaves.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{item}}
+      owner: root
+      group: root
+      mode: 0644
+    with_items:
+      - eth1
+      - eth2
+  - name: restart network
+    service: name=network state=restarted enabled=yes
+
+- hosts: centralRouter
+  become: yes
+  vars:
+    ip_addr: 192.168.255.2
+  tasks:
+  - name: copy bond conf
+    template:
+      src: bond.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-bond0
+      owner: root
+      group: root
+      mode: 0644
+  - name: copy slaves conf
+    template:
+      src: slaves.conf.j2
+      dest: /etc/sysconfig/network-scripts/ifcfg-{{item}}
+      owner: root
+      group: root
+      mode: 0644
+    with_items:
+      - eth1
+      - eth2
+  - name: restart network
+    service: name=network state=restarted enabled=yes
