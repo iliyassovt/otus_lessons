@@ -6,10 +6,6 @@
     yum: name={{ item }} state=latest 
     with_items:
       - tcpdump
-  - name: Put SELinux in permissive mode, logging actions that would be blocked.
-    ansible.posix.selinux:
-      policy: targeted
-      state: permissive
   - name: copy conf
     copy: src=rsyslog-log.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
   
@@ -26,10 +22,6 @@
     with_items:
       - epel-release
       - nginx
-  - name: Put SELinux in permissive mode, logging actions that would be blocked.
-    ansible.posix.selinux:
-      policy: targeted
-      state: permissive
   - name: copy rsyslog.conf
     copy: src=rsyslog-web.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
 
