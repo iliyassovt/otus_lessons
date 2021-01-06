@@ -17,11 +17,16 @@
 - hosts: web
   become: yes
   tasks:
-  - name: install packages
-    yum: name={{ item }} state=latest 
-    with_items:
-      - epel-release
-      - nginx
+  - name: NGINX | Install EPEL Repo package from standart repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: NGINX | Install NGINX package from EPEL Repo
+    yum:
+      name: nginx
+      state: latest
+        
   - name: copy rsyslog.conf
     copy: src=rsyslog-web.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
 
