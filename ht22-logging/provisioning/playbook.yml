@@ -26,7 +26,7 @@
     yum:
       name: nginx
       state: latest
-        
+
   - name: copy rsyslog.conf
     copy: src=rsyslog-web.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
 
@@ -37,7 +37,7 @@
     copy: src=rsyslog-audit.conf dest=/etc/rsyslog.d/ owner=root group=root mode=0644
 
   - name: copy audit.conf to the servers
-    copy: src=audit.conf dest=/etc/audit/rules.d/ owner=root group=root mode=0600
+    copy: src=audit.conf dest=/etc/audit/rules.d/audit.rules owner=root group=root mode=0600
 
   - name: copy nginx.conf to the servers
     copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
