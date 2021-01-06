@@ -1,0 +1,60 @@
+---
+- hosts: log
+  become: yes
+  tasks:
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+      - tcpdump
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    ansible.posix.selinux:
+      policy: targeted
+      state: permissive
+  - name: copy conf
+    copy: src=rsyslog-log.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
+  
+  - name: Restart rsyslog
+    systemd:
+      name: rsyslog
+      state: restarted
+
+- hosts: web
+  become: yes
+  tasks:
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+      - epel-release
+      - nginx
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    ansible.posix.selinux:
+      policy: targeted
+      state: permissive
+  - name: copy rsyslog.conf
+    copy: src=rsyslog-web.conf dest=/etc/rsyslog.conf owner=root group=root mode=0644
+
+  - name: copy all.conf to the servers
+    copy: src=all.conf dest=/etc/rsyslog.d/ owner=root group=root mode=0644
+
+  - name: copy audit-log.conf to the servers
+    copy: src=rsyslog-audit.conf dest=/etc/rsyslog.d/ owner=root group=root mode=0644
+
+  - name: copy audit.conf to the servers
+    copy: src=audit.conf dest=/etc/audit/rules.d/ owner=root group=root mode=0600
+
+  - name: copy nginx.conf to the servers
+    copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+
+  - name: restart nginx
+    systemd:
+      name: nginx
+      state: restarted
+      enabled: yes
+
+  - name: restart auditd
+    shell: service auditd restart
+  
+  - name: Restart rsyslog
+    systemd:
+      name: rsyslog
+      state: restarted
