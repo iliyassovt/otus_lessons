@@ -1,0 +1,62 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: NGINX | Install EPEL Repo package from standart repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install Borg package from EPEL Repo
+    yum:
+      name: borgbackup
+      state: latest
+
+- hosts: server
+  become: yes
+  tasks:
+  - name: Creates directory
+    file:
+      path: /mnt/backup
+      state: directory
+  - name: install parted
+      package:
+        name: parted
+        state: present
+  - parted:
+      device: /dev/sdb
+      number: 1
+      state: present
+  - filesystem:
+    fstype: ext2
+    dev: /dev/sdb1
+  - mount:
+    fstype: ext2
+    src: /dev/sdb1
+    path: /mnt/backup
+    state: mounted
+  - name: Write backup script for each app
+    shell: |
+      echo '192.168.50.11 client' >> /etc/hosts
+  - name: copy id_rsa
+    copy: src=server_id_rsa dest=/root/.ssh/id_rsa owner=root group=root mode=0600
+  - name: copy id_rsa.pub
+    copy: src=server_id_rsa.pub dest=/root/.ssh/id_rsa.pub owner=root group=root mode=0644
+  - name: copy auth_keys
+    copy: src=client_id_rsa.pub dest=/root/.ssh/authorized_keys owner=root group=root mode=0644
+
+- hosts: client
+  become: yes
+  tasks:
+  - name: Write backup script for each app
+    shell: |
+      echo '192.168.50.1 server' >> /etc/hosts
+  - name: copy id_rsa
+    copy: src=client_id_rsa dest=/root/.ssh/id_rsa owner=root group=root mode=0600
+  - name: copy id_rsa.pub
+    copy: src=client_id_rsa.pub dest=/root/.ssh/id_rsa.pub owner=root group=root mode=0644
+  - name: copy auth_keys
+    copy: src=server_id_rsa.pub dest=/root/.ssh/authorized_keys owner=root group=root mode=0644
+  - name: copy backup script
+    copy: src=backup.sh dest=/home/vagrant/backup.sh owner=root group=root mode=0755
+  
